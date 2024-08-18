@@ -7,6 +7,7 @@ import static net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.Hell
 
 %%
 
+%public
 %class HelloDslLexer
 %type IElementType
 

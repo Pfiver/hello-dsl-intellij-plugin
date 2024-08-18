@@ -1,0 +1,225 @@
+start ::= package_heading global_directive_section namespace_contents end dot
+package_heading ::= model_comment? annotations? package_type qualified_identifier semicolon
+package_type ::= {model} model | {profile} profile | {package} package
+qualified_identifier_list ::= qualified_identifier qualified_identifier_list_tail*
+qualified_identifier_list_tail ::= comma qualified_identifier
+qualified_identifier ::= qualified_identifier_base
+forcefully_qualified_identifier ::= identifier qualified_identifier_tail
+qualified_identifier_base ::= identifier qualified_identifier_tail?
+qualified_identifier_tail ::= namespace_separator qualified_identifier_base
+global_directive_section ::= global_directive*
+global_directive ::= {load} load_decl | {apply} apply_profile_decl | {import} import_decl
+
+// load <URI>
+load_decl ::= load uri semicolon
+
+// apply <id>
+apply_profile_decl ::= apply qualified_identifier semicolon
+
+// import <id>
+import_decl ::= [optional_import_modifier]: visibility_modifier? import qualified_identifier optional_alias semicolon
+optional_alias ::= alias identifier | {empty}
+namespace_contents ::= top_level_element*
+sub_namespace ::= package_heading global_directive_section namespace_contents end semicolon
+
+// top-level elements
+top_level_element ::= model_comment? top_level_element_choice
+top_level_element_choice ::=
+    {class} class_def |
+    {association} association_def |
+    {stereotype} stereotype_def |
+    {operation} detached_operation_def |
+    {function} function_decl |
+    {primitive} primitive_def |
+    {subnamespace} sub_namespace
+
+
+  // type identifiers
+minimal_type_identifier ::= qualified_identifier
+single_type_identifier ::= {qualified} minimal_type_identifier template_binding? | {any} any | {tuple_type} tuple_type
+minimal_type_identifier_list ::= minimal_type_identifier minimal_type_identifier_list_tail*
+minimal_type_identifier_list_tail ::= comma minimal_type_identifier
+type_identifier ::= single_type_identifier optional_multiplicity? | {function} function_signature optional_multiplicity?
+optional_multiplicity ::= l_bracket multiplicity_spec r_bracket multiplicity_constraints?
+multiplicity_spec ::= {single} multiplicity_value | {interval} [lower]: multiplicity_value comma [upper]: multiplicity_value
+multiplicity_constraints ::= l_curly_bracket multiplicity_constraint_list r_curly_bracket
+multiplicity_constraint_list ::= multiplicity_constraint multiplicity_constraint_tail*
+multiplicity_constraint_tail ::= comma multiplicity_constraint
+multiplicity_constraint ::= {ordered} ordered | {unordered} unordered | {unique} unique | {nonunique} nonunique
+
+  // templates
+optional_formal_template_parameters ::= lab formal_template_parameter_list rab
+formal_template_parameter_list ::= formal_template_parameter formal_template_parameter_tail*
+formal_template_parameter_tail ::= comma formal_template_parameter
+formal_template_parameter ::= identifier
+template_binding ::= lab template_parameter_list rab
+template_parameter_list ::= template_parameter template_parameter_tail*
+template_parameter_tail ::= comma template_parameter
+template_parameter ::= qualified_identifier
+
+// associations
+association_def ::= annotations? association_header association_role_decl_list end semicolon
+association_header ::= association_kind identifier?
+association_kind ::= {association} association | {aggregation} aggregation | {composition} composition
+association_role_decl_list ::= association_role_decl association_role_decl_list | {empty}
+association_role_decl ::= model_comment? annotations? association_modifiers association_end semicolon
+association_end ::= {owned} association_owned_end | {member} association_member_end
+association_owned_end ::= role identifier colon type_identifier
+association_member_end ::= role [classifier]: qualified_identifier dot [property]: identifier
+association_modifiers ::= association_modifier_list
+association_modifier_list ::= association_modifier association_modifier_list | {empty}
+association_modifier ::= {navigable} not? navigable | {readonly} readonly
+
+// classes and interfaces
+class_def ::= annotations? class_header feature_decl_list end semicolon
+class_header ::= class_modifiers class_type identifier optional_formal_template_parameters? class_specializes_section class_implements_section
+class_modifiers ::= class_modifier_list
+class_modifier_list ::= class_modifier class_modifier_list | {empty}
+class_modifier ::= {visibility} visibility_modifier | {abstract} abstract | {external} external | {role} role
+class_type ::= {class} clazz | {interface} interface | {datatype} datatype | {actor} actor | {signal} signal | {component} component | {enumeration} enumeration
+class_implements_section ::= implements class_implements_list | {empty}
+class_implements_list ::= class_implements_item class_implements_list_tail*
+class_implements_list_tail ::= comma class_implements_item
+class_implements_item ::= annotations? minimal_type_identifier
+class_specializes_section ::= specializes class_specializes_list | {empty}
+class_specializes_list ::= class_specializes_item class_specializes_list_tail*
+class_specializes_item ::= annotations? single_type_identifier
+class_specializes_list_tail ::= comma class_specializes_item
+
+// class features (operations and attributes)
+feature_decl_list ::= feature_decl feature_decl_list | {empty}
+feature_decl ::= model_comment? annotations? modifiers feature_type
+modifiers ::= modifier_list
+modifier_list ::= modifier modifier_list | {empty}
+modifier ::= {visibility} visibility_modifier | {static} static |  {abstract} abstract | {derived} derived | {readonly} readonly | {id} id
+visibility_modifier ::= {public} public | {private} private | {package} package | {protected} protected
+feature_type ::=
+      {state_machine} state_machine_decl |
+      {operation} operation_decl |
+      {attribute} attribute_decl |
+      {literal} enumeration_literal_decl |
+      {reference} reference_decl |
+      {reception} reception_decl |
+      {port} port_decl |
+      {dependency} dependency_decl |
+      {invariant} class_invariant_decl |
+      {connector} connector_decl
+state_machine_decl ::= statemachine identifier? state_decl*  end semicolon
+state_decl ::= model_comment? state_modifier_list state identifier? state_behavior* transition_decl* end semicolon
+state_modifier_list ::= state_modifier*
+state_modifier ::= {initial} initial | {terminate} terminate | {final} final
+state_behavior ::= state_behavior_modifier state_behavior_definition semicolon
+state_behavior_modifier ::= {do} do | {entry} entry | {exit} exit
+state_behavior_definition ::= {name} identifier | {behavior} simple_block
+transition_decl ::= model_comment? transition transition_triggers? to [destination]: identifier transition_guard? transition_effect? semicolon
+transition_guard ::= when expression_block
+transition_effect ::= do simple_block
+transition_triggers ::= on transition_trigger transition_trigger_tail
+transition_trigger_tail ::= comma transition_trigger transition_trigger_tail | {empty}
+transition_trigger ::= {call} call l_paren identifier r_paren | {signal} signal l_paren identifier r_paren | {any} any
+reception_decl ::= reception [reception_name]: identifier? l_paren simple_param_decl r_paren semicolon optional_behavioral_feature_body
+operation_decl ::= operation_header operation_constraint* semicolon optional_behavioral_feature_body
+parameterset_decl ::= model_comment? parameterset [name]: identifier? l_paren [parameters]: identifier_list r_paren
+operation_constraint ::= model_comment? operation_constraint_kernel
+operation_constraint_kernel ::= {precondition} operation_precondition | {permission} permission_constraint
+operation_precondition ::= precondition identifier? precondition_signature? constraint_exception? expression_block
+permission_constraint ::= allow permission_roles access_capabilities permission_expression?
+permission_expression ::= expression_block
+permission_roles ::= qualified_identifier_list | {empty}
+access_capabilities ::= access_capability_list  | {all} all | {none} none | {empty}
+access_capability_list ::= access_capability access_capability_tail*
+access_capability_tail ::= comma access_capability
+access_capability ::= {read} read | {create} create | {update} update | {delete} delete | {call} call | {extent} extent
+precondition_signature ::= l_paren identifier_list r_paren
+constraint_exception ::= raises [exception]: qualified_identifier
+identifier_list ::= identifier identifier_list_tail*
+identifier_list_tail ::= comma identifier
+operation_header ::= operation_keyword wildcard_types? identifier signature
+operation_keyword ::= {operation} operation | {query} query  | {constructor} constructor
+wildcard_types ::= lab wildcard_type wildcard_type_tail rab
+wildcard_type_tail ::= {empty} | comma wildcard_type wildcard_type_tail
+wildcard_type ::= identifier
+optional_behavioral_feature_body ::= behavioral_feature_body | {empty}
+behavioral_feature_body ::= [block]: wordy_block semicolon
+initialization_expression ::= {simple} simple_initialization | {complex} assignop expression_block
+simple_initialization ::= assignop literal_or_identifier
+attribute_decl ::= attribute identifier colon type_identifier optional_subsetting initialization_expression? attribute_invariant* semicolon
+attribute_invariant ::= model_comment? annotations? invariant_kernel
+enumeration_literal_decl ::= enumeration_literal? identifier enumeration_literal_slot_values? semicolon
+enumeration_literal_slot_values ::= l_paren named_simple_value_list r_paren
+port_decl ::= port_modifier? port identifier? colon minimal_type_identifier port_connector? semicolon
+port_modifier ::= {provided} provided | {required} required
+port_connector ::= connector connector_end_list
+connector_decl ::= connector connector_end_list semicolon
+connector_end_list ::= connector_end connector_end_list_tail
+connector_end_list_tail ::= comma connector_end_list | {empty}
+connector_end ::=
+      {path} [prefix]: identifier dot [part_or_port]: identifier |
+      {simple} [part_or_port]: identifier
+invariant_kernel ::= regular_invariant_constraint | {permission_constraint} permission_constraint
+regular_invariant_constraint ::= invariant identifier? constraint_exception? expression_block
+constraint_keyword ::= {invariant} invariant
+class_invariant_decl ::= invariant_kernel semicolon
+reference_decl ::= reference_type identifier colon type_identifier optional_qualifier? optional_subsetting optional_opposite semicolon
+optional_opposite ::= opposite [other_end]: identifier | {empty}
+reference_type ::= {association} reference | {composition} composition | {aggregation} aggregation
+dependency_decl ::= dependency type_identifier semicolon
+optional_subsetting ::= subsets qualified_identifier  | {empty}
+optional_qualifier ::= by identifier
+
+// primitive functions
+function_decl ::= function identifier simple_signature semicolon
+
+// tuple types
+tuple_type ::= l_curly_bracket tuple_type_slot tuple_type_slot_tail r_curly_bracket
+tuple_type_slot ::= identifier? colon type_identifier
+tuple_type_slot_tail ::= comma tuple_type_slot tuple_type_slot_tail | {empty}
+
+// signature
+function_signature ::= l_curly_bracket simple_signature r_curly_bracket
+signature ::= l_paren param_decl_list r_paren optional_return_type? optional_raises_section? parameterset_decl*
+simple_signature ::= l_paren simple_param_decl_list r_paren simple_optional_return_type?
+optional_return_type ::= annotations? simple_optional_return_type
+simple_optional_return_type ::= colon type_identifier
+param_decl_list ::= param_decl param_decl_list_tail | {empty}
+simple_param_decl_list ::= simple_param_decl simple_param_decl_list_tail | {empty}
+param_decl_list_tail ::= comma param_decl param_decl_list_tail | {empty}
+simple_param_decl_list_tail ::= comma simple_param_decl simple_param_decl_list_tail | {empty}
+param_decl ::= model_comment? annotations? parameter_modifiers simple_param_decl
+simple_param_decl ::= optional_parameter_name? colon type_identifier initialization_expression?
+optional_parameter_name ::= identifier
+parameter_modifiers ::= parameter_modifier_list
+parameter_modifier_list ::= parameter_modifier parameter_modifier_list | {empty}
+parameter_modifier ::= {in} in | {out} out | {inout} inout | {read} read | {create} create | {update} update | {delete} delete
+optional_raises_section ::= raises raised_exception_list
+raised_exception_list ::= raised_exception_item raised_exception_list_tail*
+raised_exception_list_tail ::= comma raised_exception_item
+raised_exception_item ::= minimal_type_identifier
+
+// annotations
+annotations ::= l_bracket annotation_list r_bracket
+annotations_with_brackets ::= l_bracket annotation_list r_bracket
+annotations_with_guillemots ::= l_guillemot annotation_list r_guillemot
+annotation_list ::= annotation annotation_list_tail*
+annotation_list_tail ::= comma annotation
+annotation ::= qualified_identifier annotation_optional_value_specs?
+annotation_optional_value_specs ::= l_paren annotation_value_spec_list r_paren
+annotation_value_spec_list ::= annotation_value_spec annotation_value_spec_list_tail*
+annotation_value_spec_list_tail ::= comma annotation_value_spec
+annotation_value_spec ::= identifier equals annotation_value
+annotation_value ::= literal | {enumerated} identifier
+
+// stereotype declaration
+stereotype_def ::= annotations? stereotype_def_header stereotype_property_decl* end semicolon
+stereotype_def_header ::= abstract? stereotype identifier stereotype_extends_section class_specializes_section
+stereotype_extends_section ::= extends stereotype_extension_list | {empty}
+stereotype_extension_list ::= stereotype_extension stereotype_extension_list_tail*
+stereotype_extension_list_tail ::= comma stereotype_extension
+stereotype_extension ::= qualified_identifier required?
+stereotype_property_decl ::= model_comment? property identifier colon type_identifier optional_default semicolon
+optional_default ::= assignop literal | {empty}
+primitive_def ::= annotations? visibility_modifier? primitive identifier semicolon
+
+// detached operations
+detached_operation_def ::= detached_operation_header behavioral_feature_body
+detached_operation_header ::= operation [type]: minimal_type_identifier dot identifier semicolon

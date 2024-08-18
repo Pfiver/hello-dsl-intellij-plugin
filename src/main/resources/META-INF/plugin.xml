@@ -3,29 +3,33 @@
 
     <name>HelloDslIntellijPlugin</name>
 
-    <vendor email="patrick@patrickpfeifer.net" url="https://www.patrickpfeifer.net">Patrick Pfeifer</vendor>
+    <vendor email="patrick@patrickpfeifer.net">Patrick Pfeifer</vendor>
 
     <description><![CDATA[
         The HelloDslIntellijPlugin is <em>the</em> tool to edit "Hello DSL" Files.
     ]]></description>
 
-    <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslToolWindowFactory" id="HelloDslToolWindow"/>
-    </extensions>
+    <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
                 name="HelloDsl File"
-                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslFileType"
-                fieldName="INSTANCE"
+                extensions="hdsl"
                 language="HelloDsl"
-                extensions="hdsl"/>
+                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslFileType"/>
         <lang.parserDefinition
                 language="HelloDsl"
                 implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="HelloDsl"
+                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslSyntaxHighlighterFactory"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                id="HelloDslToolWindow"
+                factoryClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslToolWindowFactory"/>
     </extensions>
 
 </idea-plugin>

@@ -9,7 +9,7 @@ import static com.intellij.psi.TokenType.*;
 import static net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslTypes.*;
 
 
-class HelloDslLexer {
+public class HelloDslLexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -281,7 +281,7 @@ class HelloDslLexer {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  HelloDslLexer(java.io.Reader in) {
+  public HelloDslLexer(java.io.Reader in) {
     this.zzReader = in;
   }
 

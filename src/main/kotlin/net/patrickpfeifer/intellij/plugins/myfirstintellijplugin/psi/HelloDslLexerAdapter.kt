@@ -1,7 +1,8 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin
+package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi
 
 import com.intellij.lexer.FlexAdapter
 import com.intellij.lexer.FlexLexer
+import net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslLexer
 
 class HelloDslLexerAdapter() : FlexAdapter(object : FlexLexer {
 
