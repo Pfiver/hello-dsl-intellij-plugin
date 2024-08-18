@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>net.patrickpfeifer.intellij.plugins.hellodsl</id>
+
+    <name>HelloDslIntellijPlugin</name>
+
+    <vendor email="patrick@patrickpfeifer.net" url="https://www.patrickpfeifer.net">Patrick Pfeifer</vendor>
+
+    <description><![CDATA[
+        The HelloDslIntellijPlugin is <em>the</em> tool to edit "Hello DSL" Files.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslToolWindowFactory" id="HelloDslToolWindow"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="HelloDsl File"
+                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslFileType"
+                fieldName="INSTANCE"
+                language="HelloDsl"
+                extensions="hdsl"/>
+        <lang.parserDefinition
+                language="HelloDsl"
+                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslParserDefinition"/>
+    </extensions>
+
+</idea-plugin>

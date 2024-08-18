@@ -1,0 +1,20 @@
+{
+  parserClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="HelloDsl"
+  psiImplClassSuffix="Impl"
+  psiPackage="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi"
+  psiImplPackage="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.impl"
+
+  elementTypeHolderClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslTypes"
+  elementTypeClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslElementType"
+  tokenTypeClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslElementType"
+}
+
+helloDslFile ::= item*
+
+private item ::= (key_value|COMMENT|CRLF)
+
+key_value ::= (KEY? SEPARATOR VALUE?) | KEY
