@@ -1,16 +1,16 @@
 {
-  parserClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslParser"
+  parserClass="net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslParser"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="HelloDsl"
   psiImplClassSuffix="Impl"
-  psiPackage="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi"
-  psiImplPackage="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.impl"
+  psiPackage="net.patrickpfeifer.intellij.plugins.hellodsl.psi"
+  psiImplPackage="net.patrickpfeifer.intellij.plugins.hellodsl.psi.impl"
 
-  elementTypeHolderClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslTypes"
-  elementTypeClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslElementType"
-  tokenTypeClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslElementType"
+  elementTypeHolderClass="net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslTypes"
+  elementTypeClass="net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslElementType"
+  tokenTypeClass="net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslElementType"
 }
 
 helloDslFile ::= item*

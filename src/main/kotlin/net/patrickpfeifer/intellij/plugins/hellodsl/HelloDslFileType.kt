@@ -1,4 +1,4 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin
+package net.patrickpfeifer.intellij.plugins.hellodsl
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.util.IconLoader

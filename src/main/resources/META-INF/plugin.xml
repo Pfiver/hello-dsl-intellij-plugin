@@ -17,19 +17,19 @@
                 name="HelloDsl File"
                 extensions="hdsl"
                 language="HelloDsl"
-                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslFileType"/>
+                implementationClass="net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslFileType"/>
         <lang.parserDefinition
                 language="HelloDsl"
-                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslParserDefinition"/>
+                implementationClass="net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslParserDefinition"/>
         <lang.syntaxHighlighterFactory
                 language="HelloDsl"
-                implementationClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslSyntaxHighlighterFactory"/>
+                implementationClass="net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslSyntaxHighlighterFactory"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
                 id="HelloDslToolWindow"
-                factoryClass="net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslToolWindowFactory"/>
+                factoryClass="net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslToolWindowFactory"/>
     </extensions>
 
 </idea-plugin>

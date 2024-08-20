@@ -1,10 +1,10 @@
 // This is a generated file. Not intended for manual editing.
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi;
+package net.patrickpfeifer.intellij.plugins.hellodsl.psi;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.impl.*;
+import net.patrickpfeifer.intellij.plugins.hellodsl.psi.impl.*;
 
 public interface HelloDslTypes {
 

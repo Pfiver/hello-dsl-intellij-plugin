@@ -1,4 +1,4 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin
+package net.patrickpfeifer.intellij.plugins.hellodsl
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project

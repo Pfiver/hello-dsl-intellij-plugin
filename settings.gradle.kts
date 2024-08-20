@@ -1,1 +1,1 @@
-rootProject.name = "MyFirstIntellijPlugin"
+rootProject.name = "hello-dsl-intellij-plugin"

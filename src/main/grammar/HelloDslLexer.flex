@@ -1,9 +1,9 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin;
+package net.patrickpfeifer.intellij.plugins.hellodsl;
 
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.*;
-import static net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslTypes.*;
+import static net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslTypes.*;
 
 %%
 

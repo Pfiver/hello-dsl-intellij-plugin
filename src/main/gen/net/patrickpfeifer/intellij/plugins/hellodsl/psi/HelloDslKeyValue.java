@@ -1,5 +1,5 @@
 // This is a generated file. Not intended for manual editing.
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi;
+package net.patrickpfeifer.intellij.plugins.hellodsl.psi;
 
 import java.util.List;
 import org.jetbrains.annotations.*;

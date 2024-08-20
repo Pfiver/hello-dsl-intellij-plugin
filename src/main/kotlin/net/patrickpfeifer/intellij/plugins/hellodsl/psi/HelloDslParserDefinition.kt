@@ -1,4 +1,4 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi
+package net.patrickpfeifer.intellij.plugins.hellodsl.psi
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.ASTNode
@@ -7,9 +7,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslFileType
-import net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslLanguage
-import net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.HelloDslParser
+import net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslFileType
+import net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslLanguage
+import net.patrickpfeifer.intellij.plugins.hellodsl.HelloDslParser
 
 class HelloDslParserDefinition : ParserDefinition {
 

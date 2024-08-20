@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin;
+package net.patrickpfeifer.intellij.plugins.hellodsl;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi.HelloDslTypes.*;
+import static net.patrickpfeifer.intellij.plugins.hellodsl.psi.HelloDslTypes.*;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;

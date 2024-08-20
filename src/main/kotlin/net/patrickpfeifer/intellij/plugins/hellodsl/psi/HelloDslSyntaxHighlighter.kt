@@ -1,4 +1,4 @@
-package net.patrickpfeifer.intellij.plugins.myfirstintellijplugin.psi
+package net.patrickpfeifer.intellij.plugins.hellodsl.psi
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.HighlighterColors
